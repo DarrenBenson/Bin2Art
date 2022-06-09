@@ -12,6 +12,12 @@ def loadFileData(filename):
         with mmap.mmap(file.fileno(), length=0, access=mmap.ACCESS_READ) as fileData:
             return fileData.read()
 
+def getFilesToProcess():
+    includedExtensions = ["dsk","tap", "a26", "cdt", "rom", "mp3"]
+    returnValue = [fileName for fileName in os.listdir()
+              if any(fileName.endswith(ext) for ext in includedExtensions)]
+    return returnValue
+
 def generateImage(fileName):
     outputFileName = getOutputFilename(inputFileName)
     fileData = loadFileData(fileName)
@@ -30,5 +36,5 @@ def generateImage(fileName):
     resizedImage.save(outputFileName, "PNG")
 
 
-inputFileName = "Chuckie Egg.tap"
-generateImage(inputFileName)
+for inputFileName in getFilesToProcess(): 
+    generateImage(inputFileName)
