@@ -11,10 +11,12 @@ class Bin2ArtTester:
         self.test_dir = Path("test_output")
         self.test_file = "test.rom"
         self.bin2art = "bin2art.py"
+        self.generated_files = []  # Track files created during testing
         
         # Create test binary file if it doesn't exist
         if not os.path.exists(self.test_file):
             self._create_test_file()
+            self.generated_files.append(self.test_file)
     
     def setup(self):
         """Prepare test environment"""
@@ -24,10 +26,33 @@ class Bin2ArtTester:
         print(f"Created test directory: {self.test_dir}")
     
     def cleanup(self):
-        """Clean up test files"""
+        """Clean up test files and directories"""
         print("\nCleaning up test environment...")
+        
+        # Remove generated image files
+        for file in Path().glob("*.png"):
+            try:
+                file.unlink()
+                print(f"Removed generated image: {file}")
+            except Exception as e:
+                print(f"Warning: Could not remove {file}: {e}")
+        
+        # Remove test binary file
+        if self.test_file in self.generated_files:
+            try:
+                Path(self.test_file).unlink()
+                print(f"Removed test file: {self.test_file}")
+            except Exception as e:
+                print(f"Warning: Could not remove {self.test_file}: {e}")
+        
+        # Remove test output directory
         if self.test_dir.exists():
-            shutil.rmtree(self.test_dir)
+            try:
+                shutil.rmtree(self.test_dir)
+                print(f"Removed test directory: {self.test_dir}")
+            except Exception as e:
+                print(f"Warning: Could not remove {self.test_dir}: {e}")
+        
         print("Cleanup complete")
     
     def _create_test_file(self):
@@ -43,6 +68,12 @@ class Bin2ArtTester:
         print(f"\nTesting: {cmd}")
         try:
             result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+            
+            # Track any PNG files created during this test
+            for file in Path().glob("*.png"):
+                if file not in self.generated_files:
+                    self.generated_files.append(file)
+            
             if result.returncode == 0:
                 print("✅ Test passed")
                 return True
