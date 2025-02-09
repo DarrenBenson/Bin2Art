@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # This program converts binary files (ROMs, disk images, audio files, etc.) into abstract art
 # It does this by reading the binary data and converting each 3 bytes into RGB pixel values
 # The resulting image is a visual representation of the file's binary structure
@@ -6,7 +8,7 @@ import os
 import mmap
 from numpy import ceil, sqrt
 from PIL import Image, ImageFilter, ImageEnhance
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 import math
 import argparse
 from enum import Enum
@@ -14,6 +16,7 @@ from dataclasses import dataclass, field
 
 # Enums for different modes and styles
 class ColorMode(Enum):
+    """Available color modes for image generation."""
     NORMAL = 'normal'
     COMPLEMENT = 'complement'
     AMPLIFIED = 'amplified'
@@ -23,6 +26,7 @@ class ColorMode(Enum):
     PASTEL = 'pastel'
 
 class EffectStyle(Enum):
+    """Available effect styles for pattern generation."""
     NONE = 'none'
     MIRROR = 'mirror'
     ROTATE = 'rotate'
@@ -34,8 +38,21 @@ class EffectStyle(Enum):
 
 @dataclass
 class Config:
-    """Configuration settings for the art generator"""
-    INCLUDED_EXTENSIONS: List[str] = field(default_factory=lambda: ["dsk", "tap", "a26", "cdt", "rom", "mp3"])
+    """Configuration settings for the art generator.
+    
+    Attributes:
+        INCLUDED_EXTENSIONS: List of file extensions to process
+        OUTPUT_IMAGE_SIZE: Size of output image in pixels
+        BYTES_PER_PIXEL: Number of bytes used per pixel
+        DEFAULT_ALPHA: Default alpha channel value
+        POSTER_COLORS: Number of colors for posterize effect
+        BLUR_RADIUS: Radius for Gaussian blur
+        COLOR_ENHANCE: Color enhancement factor
+        CONTRAST_ENHANCE: Contrast enhancement factor
+    """
+    INCLUDED_EXTENSIONS: List[str] = field(
+        default_factory=lambda: ["dsk", "tap", "a26", "cdt", "rom", "mp3"]
+    )
     OUTPUT_IMAGE_SIZE: int = 1920
     BYTES_PER_PIXEL: int = 3
     DEFAULT_ALPHA: int = 255
@@ -45,33 +62,57 @@ class Config:
     CONTRAST_ENHANCE: float = 1.3
 
 class FileHandler:
-    """Handles all file-related operations"""
+    """Handles all file-related operations."""
     
     def __init__(self, config: Config):
         self.config = config
 
-    @staticmethod
-    def get_output_filename(input_filename: str, args: argparse.Namespace) -> str:
-        base_filename = os.path.splitext(input_filename)[0]
-        output_path = os.path.join(args.output_dir, f"{base_filename}.{args.format.lower()}")
-        return output_path
+    def get_output_filename(self, input_filename: str, args: argparse.Namespace) -> str:
+        """
+        Generate output filename based on input file and arguments.
 
-    @staticmethod
-    def load_file_data(filename: str) -> bytes:
-        """Reads binary data using memory mapping for efficiency"""
+        Args:
+            input_filename: Name of input file
+            args: Command line arguments
+
+        Returns:
+            String containing output file path
+        """
+        base_filename = os.path.splitext(input_filename)[0]
+        return os.path.join(args.output_dir, f"{base_filename}.{args.format.lower()}")
+
+    def load_file_data(self, filename: str) -> bytes:
+        """
+        Read binary data using memory mapping for efficiency.
+
+        Args:
+            filename: Path to file to read
+
+        Returns:
+            Bytes containing file data
+
+        Raises:
+            FileNotFoundError: If file doesn't exist
+            PermissionError: If file can't be accessed
+        """
         with open(filename, mode="rb") as file:
             with mmap.mmap(file.fileno(), length=0, access=mmap.ACCESS_READ) as file_data:
                 return file_data.read()
 
     def get_files_to_process(self) -> List[str]:
-        """Returns list of supported files in current directory"""
+        """
+        Get list of supported files in current directory.
+
+        Returns:
+            List of filenames to process
+        """
         return [
             filename for filename in os.listdir()
             if any(filename.endswith(ext) for ext in self.config.INCLUDED_EXTENSIONS)
         ]
 
 class ImageProcessor:
-    """Handles image processing and effect application"""
+    """Handles image processing and effect application."""
     
     def __init__(self, config: Config):
         self.config = config
@@ -80,8 +121,22 @@ class ImageProcessor:
         """Calculates square image dimensions needed for data"""
         return int(ceil(sqrt(data_length / self.config.BYTES_PER_PIXEL)))
 
-    def get_rgb_values(self, file_data: bytes, start_index: int, color_mode: ColorMode) -> Tuple[int, int, int]:
-        """Extracts and processes RGB values based on color mode"""
+    def get_rgb_values(self, file_data: bytes, start_index: int, 
+                      color_mode: ColorMode) -> Tuple[int, int, int]:
+        """
+        Extract and process RGB values from binary data.
+
+        Args:
+            file_data: Binary data to process
+            start_index: Starting index in data
+            color_mode: Color processing mode to apply
+
+        Returns:
+            Tuple of (red, green, blue) values
+
+        Raises:
+            IndexError: If start_index is out of range
+        """
         r = file_data[start_index] if start_index < len(file_data) else 0
         g = file_data[start_index + 1] if start_index + 1 < len(file_data) else 0
         b = file_data[start_index + 2] if start_index + 2 < len(file_data) else 0
@@ -121,47 +176,59 @@ class ImageProcessor:
         
         return (r, g, b)
 
-    def create_image(self, file_data: bytes, dimensions: int, effect_style: EffectStyle, color_mode: ColorMode) -> Image.Image:
-        """Creates image with specified effects and color mode"""
+    def create_image(self, file_data: bytes, dimensions: int, 
+                    effect: EffectStyle, color_mode: ColorMode) -> Image.Image:
+        """
+        Create image from binary data with specified effects.
+
+        Args:
+            file_data: Binary data to process
+            dimensions: Size of output image
+            effect: Effect style to apply
+            color_mode: Color mode to use
+
+        Returns:
+            PIL Image object
+        """
         output_image = Image.new("RGBA", (dimensions, dimensions), "black")
         
         for x in range(dimensions):
             for y in range(dimensions):
-                pixel_index = self._calculate_pixel_index(x, y, dimensions, effect_style, len(file_data))
+                pixel_index = self._calculate_pixel_index(x, y, dimensions, effect, len(file_data))
                 rgb_values = self.get_rgb_values(file_data, pixel_index, color_mode)
                 output_image.putpixel((x, y), rgb_values + (self.config.DEFAULT_ALPHA,))
         
         return output_image
 
-    def _calculate_pixel_index(self, x: int, y: int, dimensions: int, effect_style: EffectStyle, data_length: int) -> int:
+    def _calculate_pixel_index(self, x: int, y: int, dimensions: int, effect: EffectStyle, data_length: int) -> int:
         """Calculates pixel index based on effect style"""
-        if effect_style == EffectStyle.MIRROR:
+        if effect == EffectStyle.MIRROR:
             mirror_x = min(x, dimensions - x - 1)
             mirror_y = min(y, dimensions - y - 1)
             return (mirror_x * dimensions + mirror_y) * self.config.BYTES_PER_PIXEL
-        elif effect_style == EffectStyle.ROTATE:
+        elif effect == EffectStyle.ROTATE:
             angle = math.atan2(y - dimensions/2, x - dimensions/2)
             distance = math.sqrt((x - dimensions/2)**2 + (y - dimensions/2)**2)
             pixel_index = int((angle * distance) % data_length)
             pixel_index -= pixel_index % self.config.BYTES_PER_PIXEL
-        elif effect_style == EffectStyle.KALEIDOSCOPE:
+        elif effect == EffectStyle.KALEIDOSCOPE:
             sector = math.atan2(y - dimensions/2, x - dimensions/2) % (math.pi/4)
             distance = math.sqrt((x - dimensions/2)**2 + (y - dimensions/2)**2)
             pixel_index = int((sector * distance) % data_length)
             pixel_index -= pixel_index % self.config.BYTES_PER_PIXEL
-        elif effect_style == EffectStyle.SPIRAL:
+        elif effect == EffectStyle.SPIRAL:
             angle = math.atan2(y - dimensions/2, x - dimensions/2)
             distance = math.sqrt((x - dimensions/2)**2 + (y - dimensions/2)**2)
             pixel_index = int((angle + distance/10) * self.config.BYTES_PER_PIXEL) % data_length
-        elif effect_style == EffectStyle.WAVES:
+        elif effect == EffectStyle.WAVES:
             wave = math.sin(x/20) * 10 + math.cos(y/20) * 10
             pixel_index = int((x + y + wave) * self.config.BYTES_PER_PIXEL) % data_length
-        elif effect_style == EffectStyle.MOSAIC:
+        elif effect == EffectStyle.MOSAIC:
             tile_size = 20
             tx = (x // tile_size) * tile_size
             ty = (y // tile_size) * tile_size
             pixel_index = (tx * dimensions + ty) * self.config.BYTES_PER_PIXEL
-        elif effect_style == EffectStyle.FRACTAL:
+        elif effect == EffectStyle.FRACTAL:
             scale = 4 * math.pi / dimensions
             cx = (x - dimensions/2) * scale
             cy = (y - dimensions/2) * scale
@@ -172,7 +239,16 @@ class ImageProcessor:
         return pixel_index
 
     def apply_effects(self, image: Image.Image, args: argparse.Namespace) -> Image.Image:
-        """Applies post-processing effects"""
+        """
+        Apply post-processing effects to image.
+
+        Args:
+            image: Input PIL Image
+            args: Command line arguments containing effect options
+
+        Returns:
+            Processed PIL Image
+        """
         if args.blur or args.all_effects:
             image = image.filter(ImageFilter.GaussianBlur(radius=self.config.BLUR_RADIUS))
         
