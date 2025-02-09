@@ -142,11 +142,16 @@ dmypy.json
 *.swo
 *~
 
-# Generated image files
+# Generated image files - but keep examples
 *.png
 *.jpg
 *.jpeg
 *.gif
+# Allow example images
+!examples/*.png
+!examples/*.jpg
+!examples/*.jpeg
+!examples/*.gif
 
 # Test files
 test_files/

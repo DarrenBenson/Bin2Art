@@ -2,7 +2,7 @@
 
 Transform binary files into stunning abstract art! This tool creates unique visual patterns by converting binary data into colorful images.
 
-![Example Output](examples/demo.png)  # Would be great to add example images
+![Example Output](examples/Advanced Lawnmower Simulator.png) 
 
 ## Overview
 
