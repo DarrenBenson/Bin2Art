@@ -8,6 +8,9 @@ from typing import List, Optional
 class Bin2ArtTester:
     """Test suite for bin2art.py"""
     
+    def __init__.py
+
+
     def __init__(self) -> None:
         """Initialize test environment and tracking."""
         self.test_dir = Path("test_output")
