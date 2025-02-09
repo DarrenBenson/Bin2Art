@@ -10,7 +10,7 @@ from typing import List, Tuple
 import math
 import argparse
 from enum import Enum
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 # Enums for different modes and styles
 class ColorMode(Enum):
@@ -35,7 +35,7 @@ class EffectStyle(Enum):
 @dataclass
 class Config:
     """Configuration settings for the art generator"""
-    INCLUDED_EXTENSIONS: List[str] = ["dsk", "tap", "a26", "cdt", "rom", "mp3"]
+    INCLUDED_EXTENSIONS: List[str] = field(default_factory=lambda: ["dsk", "tap", "a26", "cdt", "rom", "mp3"])
     OUTPUT_IMAGE_SIZE: int = 1920
     BYTES_PER_PIXEL: int = 3
     DEFAULT_ALPHA: int = 255
@@ -47,6 +47,9 @@ class Config:
 class FileHandler:
     """Handles all file-related operations"""
     
+    def __init__(self, config: Config):
+        self.config = config
+
     @staticmethod
     def get_output_filename(input_filename: str, args: argparse.Namespace) -> str:
         base_filename = os.path.splitext(input_filename)[0]
@@ -60,12 +63,11 @@ class FileHandler:
             with mmap.mmap(file.fileno(), length=0, access=mmap.ACCESS_READ) as file_data:
                 return file_data.read()
 
-    @staticmethod
-    def get_files_to_process() -> List[str]:
+    def get_files_to_process(self) -> List[str]:
         """Returns list of supported files in current directory"""
         return [
             filename for filename in os.listdir()
-            if any(filename.endswith(ext) for ext in Config.INCLUDED_EXTENSIONS)
+            if any(filename.endswith(ext) for ext in self.config.INCLUDED_EXTENSIONS)
         ]
 
 class ImageProcessor:
@@ -190,7 +192,7 @@ class ArtGenerator:
     
     def __init__(self):
         self.config = Config()
-        self.file_handler = FileHandler()
+        self.file_handler = FileHandler(self.config)
         self.image_processor = ImageProcessor(self.config)
         self.args = self._parse_arguments()
 
@@ -229,6 +231,10 @@ Examples:
         parser.add_argument('--enhance-contrast',
                            action='store_true',
                            help='Enhance image contrast')
+        
+        parser.add_argument('--posterize',
+                           action='store_true',
+                           help='Apply poster effect (reduce colors)')
         
         parser.add_argument('--all-effects',
                            action='store_true',
