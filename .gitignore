@@ -122,3 +122,68 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.iws
+.idea_modules/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Generated image files
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Test files
+test_files/
+*.dsk
+*.tap
+*.a26
+*.cdt
+*.rom
+*.mp3
+
+# Local development settings
+config.local.py
+settings.local.py
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+[Dd]esktop.ini
+
+# Linux
+.directory
+.Trash-*
+
+# Logs and Databases
+*.log
+*.sqlite
+*.db
+
+# Temporary files
+*.bak
+*.tmp
+*.temp
