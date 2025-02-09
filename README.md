@@ -138,19 +138,11 @@ python bin2art.py --effect kaleidoscope --enhance-color --blur input.mp3
 
 ## Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
-
-### Development Setup
-1. Fork the repository
-2. Create feature branch
-3. Install development dependencies: `pip install -r requirements-dev.txt`
-4. Make changes
-5. Run tests: `python -m pytest`
-6. Submit pull request
+We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) for details on how to submit pull requests, report issues, and contribute to the project.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
 
 ## Credits
 
