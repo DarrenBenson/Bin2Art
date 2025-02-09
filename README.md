@@ -1,6 +1,6 @@
 # Bin2Art: Transform Retro Code into Digital Art 🎨
 
-Ever wondered what your favorite retro games and programs would look like as art? Bin2Art transforms vintage binary files into stunning abstract artwork, letting you visualize the digital DNA of classic software in beautiful new ways.
+Ever wondered what your favorite retro games and programs would look like as art? Bin2Art transforms vintage binary files into interesting abstract artwork, letting you visualize the digital DNA of classic software in beautiful new ways.
 
 ## Digital Archaeology Meets Art
 
@@ -38,7 +38,7 @@ Watch as forgotten bits and bytes metamorphose into vibrant digital paintings, e
 
 ![Binary art generated from Advanced Lawnmower Simulator](examples/Advanced%20Lawnmower%20Simulator.png)
 
-This mesmerizing pattern was generated from the binary code of "Advanced Lawnmower Simulator". Every curve and color represents actual code and data from the original program, transformed into an abstract visualization.
+This mesmerizing pattern was generated from the binary code of "Advanced Lawnmower Simulator". Every block of color represents actual code and data from the original program, transformed into an abstract visualization.
 
 ## Why Bin2Art?
 
