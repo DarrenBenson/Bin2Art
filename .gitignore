@@ -192,3 +192,6 @@ ehthumbs_vista.db
 *.bak
 *.tmp
 *.temp
+
+# Claude Code
+.claude/

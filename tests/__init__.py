@@ -1,1 +1,1 @@
-"""Test package for Bin2Art.""" 
+"""Test package for Bin2Art."""

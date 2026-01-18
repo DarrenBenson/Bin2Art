@@ -49,17 +49,14 @@ source venv/bin/activate
 
 3. Install Dependencies
 ```bash
-# Install runtime dependencies
+# Install dependencies
 pip install -r requirements.txt
-
-# Install development dependencies
-pip install -r requirements-dev.txt
 ```
 
 4. Verify Setup
 ```bash
 # Run tests to ensure everything is working
-python test_bin2art.py
+python run_tests.py
 ```
 
 ## Development Workflow
@@ -79,7 +76,7 @@ git checkout -b fix/your-bug-fix
 3. Test Your Changes
 ```bash
 # Run test suite
-python test_bin2art.py
+python run_tests.py
 
 # Test with different parameters
 python bin2art.py --color neon --effect spiral test.rom

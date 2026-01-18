@@ -1,208 +1,172 @@
-# Bin2Art: Transform Retro Code into Digital Art 🎨
+# Bin2Art
 
-Ever wondered what your favorite retro games and programs would look like as art? Bin2Art transforms vintage binary files into interesting abstract artwork, letting you visualize the digital DNA of classic software in beautiful new ways.
+[![Python Tests](https://github.com/DarrenBenson/Bin2Art/actions/workflows/python-tests.yml/badge.svg)](https://github.com/DarrenBenson/Bin2Art/actions/workflows/python-tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-## Digital Archaeology Meets Art
-
-Turn binary artifacts from the golden age of computing into mesmerizing visual patterns. Feed Bin2Art your:
-- Classic game ROMs
-- Vintage program binaries
-- Old disk images
-- Retro computer files
-- Cassette tape dumps
-- Ancient executable files
-
-Watch as forgotten bits and bytes metamorphose into vibrant digital paintings, each unique to the original program's structure and content.
-
-## Features That Make Your Bits Beautiful
-
-### 🎨 Color Transformations
-- **Normal**: See raw binary patterns
-- **Complement**: Explore inverted digital spaces
-- **Neon**: Electrify your old code
-- **Sepia**: Give your binaries a vintage look
-- **Pastel**: Soften the digital edges
-- **Grayscale**: Appreciate the binary basics
-- **Amplified**: Make those patterns pop
-
-### ✨ Pattern Effects
-- **Mirror**: Create symmetrical binary beauty
-- **Kaleidoscope**: Fractal-like code patterns
-- **Spiral**: Hypnotic data swirls
-- **Waves**: Flowing data streams
-- **Mosaic**: Digital tile art
-- **Fractal**: Complex code structures
-- **Rotate**: Circular binary mandalas
-
-## Example: Advanced Lawnmower Simulator Transformed
+Transform binary files into abstract artwork. Bin2Art reads any binary file and interprets its data as RGB colour values, creating unique visual patterns from ROMs, disk images, executables, and other binary data.
 
 ![Binary art generated from Advanced Lawnmower Simulator](examples/Advanced%20Lawnmower%20Simulator.png)
 
-This mesmerizing pattern was generated from the binary code of "Advanced Lawnmower Simulator". Every block of color represents actual code and data from the original program, transformed into an abstract visualization.
+## Examples
 
-## Why Bin2Art?
+| Spectrum + Horizontal + Retro | Spectrum + Blocks + Scanlines | CPC + Horizontal |
+|:-----------------------------:|:-----------------------------:|:----------------:|
+| ![Aliens](examples/Aliens.png) | ![Gauntlet](examples/Gauntlet.png) | ![Arkanoid](examples/Arkanoid.png) |
 
-- **Preserve Digital History**: Give old software new life as art
-- **Explore Code Aesthetics**: See the hidden beauty in binary
-- **Create Unique Art**: Every program generates distinct patterns
-- **Celebrate Retro Computing**: Honor classic software visually
-- **Generate Wall Art**: Perfect for decorating your coding space
-- **Visualize Data**: See programs in a whole new light
-
-## Get Started
-
-Transform your own piece of computing history into art:
-
-```bash
-python bin2art.py --color neon --effect spiral game.rom
-```
-
-Ready to turn your digital artifacts into art? Check out our [installation guide](#installation) to begin your journey into binary aesthetics.
-
-## Overview
-
-Bin2Art reads any binary file and interprets its data as RGB color values, creating fascinating abstract patterns. Perfect for:
-- Visualizing ROM files
-- Creating unique artwork from data
-- Exploring binary file structures visually
-- Generating abstract wallpapers
+| C64 + Blocks + Scanlines | Neon + Radial | Neon + Radial |
+|:------------------------:|:-------------:|:-------------:|
+| ![Amaurote](examples/Amaurote.png) | ![Airwolf](examples/Airwolf.png) | ![Xanagrams](examples/Xanagrams.png) |
 
 ## Quick Start
 
 ```bash
-# Install and run in one minute
-git clone https://github.com/yourusername/bin2art.git
-cd bin2art
+git clone https://github.com/DarrenBenson/Bin2Art.git
+cd Bin2Art
 pip install -r requirements.txt
-python bin2art.py --color neon --effect spiral example.rom
+
+# Place binary files in the directory, then run:
+python bin2art.py --color spectrum --effect horizontal --retro
 ```
 
 ## Features
 
-### Color Modes 🎨
+### Colour Modes
+
 | Mode | Description |
 |------|-------------|
-| `normal` | Direct RGB mapping |
-| `complement` | Inverted colors |
+| `normal` | Direct RGB mapping from bytes |
 | `amplified` | Enhanced contrast |
-| `grayscale` | Monochrome |
-| `sepia` | Vintage brown tones |
-| `neon` | Bright, vivid colors |
-| `pastel` | Soft, muted tones |
+| `neon` | Bright, saturated colours |
+| `gameboy` | Classic Game Boy 4-shade green palette |
+| `cpc` | Amstrad CPC 27-colour palette |
+| `c64` | Commodore 64 16-colour palette |
+| `spectrum` | ZX Spectrum 16-colour palette |
 
-### Pattern Effects 🌀
+### Pattern Effects
+
 | Effect | Description |
 |--------|-------------|
-| `mirror` | Symmetrical patterns |
-| `rotate` | Circular patterns |
-| `kaleidoscope` | Complex symmetry |
-| `spiral` | Spiral-based patterns |
-| `waves` | Undulating patterns |
-| `mosaic` | Tile-like patterns |
-| `fractal` | Fractal-like patterns |
+| `none` | Linear pixel mapping |
+| `mosaic` | Tile-based patterns |
+| `hilbert` | Space-filling Hilbert curve mapping |
+| `radial` | Concentric circles, mandala-like patterns |
+| `horizontal` | Straight horizontal bands |
+| `diagonal` | 45-degree diagonal stripes |
+| `blocks` | Large chunky pixel blocks |
 
-### Post-Processing 🎯
-- `--blur` - Soft, dreamy effect
-- `--enhance-color` - Boost color saturation
-- `--enhance-contrast` - Increase contrast
-- `--posterize` - Reduce to limited color palette
+### Retro Effects
+
+| Option | Description |
+|--------|-------------|
+| `--antialias` | Pixel art edge smoothing |
+| `--scanlines` | CRT-style scanlines (authentic spacing) |
+| `--retro` | Both antialias and scanlines |
+
+### Post-Processing
+
+| Option | Description |
+|--------|-------------|
+| `--blur` | Gaussian blur effect |
+| `--enhance-color` | Boost colour saturation |
+| `--enhance-contrast` | Increase contrast |
+| `--posterize` | Reduce to limited palette |
+| `--all-effects` | Apply all post-processing |
+
+### Output Options
+
+| Option | Description | Default |
+|--------|-------------|---------|
+| `--size` | Output image size in pixels | 1024 |
+| `--output-dir` | Directory for output files | Current directory |
+| `--format` | Output format (PNG, JPEG, BMP) | PNG |
 
 ## Installation
 
 ### Prerequisites
-- Python 3.7 or higher
+
+- Python 3.8 or higher
 - pip package manager
 
-### Steps
+### Setup
+
 ```bash
-# Clone repository
-git clone https://github.com/yourusername/bin2art.git
-cd bin2art
+git clone https://github.com/DarrenBenson/Bin2Art.git
+cd Bin2Art
 
-# Create virtual environment (recommended)
+# Optional: create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# Install dependencies
 pip install -r requirements.txt
 ```
 
-## Usage Examples
+## Usage
 
-### Basic Usage
+Bin2Art processes all supported files in the current directory:
+
 ```bash
-# Process all supported files in current directory
+# Process all supported files with defaults
 python bin2art.py
 
-# Process specific file
-python bin2art.py game.rom
+# Apply colour mode and effect
+python bin2art.py --color spectrum --effect horizontal
+
+# Add retro CRT effects (scanlines + antialiasing)
+python bin2art.py --color spectrum --effect blocks --retro
+
+# Combine multiple options
+python bin2art.py --color c64 --effect blocks --scanlines --posterize
+
+# Custom output settings
+python bin2art.py --format JPEG --size 3840 --output-dir ./output
 ```
 
-### Creative Effects
-```bash
-# Create neon spiral art
-python bin2art.py --color neon --effect spiral input.rom
+## Supported File Types
 
-# Generate vintage-style mirror image
-python bin2art.py --color sepia --effect mirror --posterize input.dsk
+| Extension | Description |
+|-----------|-------------|
+| `.dsk` | Disk images (various retro computers) |
+| `.tap` | Tape images (ZX Spectrum) |
+| `.a26` | Atari 2600 ROMs |
+| `.cdt` | Cassette tapes (Amstrad CPC) |
+| `.rom` | Generic ROM files |
+| `.mp3` | Audio files |
 
-# Create psychedelic kaleidoscope
-python bin2art.py --effect kaleidoscope --enhance-color --blur input.mp3
-```
+## Output
 
-## Supported Formats
+- **Format**: PNG (default, optimised), JPEG (quality 95), or BMP
+- **Resolution**: 1024x1024 pixels (configurable via `--size`)
+- **Colour depth**: 32-bit RGBA
+- **Location**: Same directory as input (or `--output-dir`)
+- **Naming**: `{input_name}.{format}`
 
-| Extension | Description | Common Sources |
-|-----------|-------------|----------------|
-| `.dsk` | Disk images | Retro computers |
-| `.tap` | Tape images | ZX Spectrum |
-| `.a26` | Atari ROMs | Atari 2600 |
-| `.cdt` | CPC tapes | Amstrad CPC |
-| `.rom` | ROM files | Various systems |
-| `.mp3` | Audio files | Music/Sound |
+## How It Works
 
-## Technical Details
-
-### Output Specifications
-- Format: PNG (lossless)
-- Resolution: 1920x1920 pixels
-- Color depth: 32-bit RGBA
-- Location: Same directory as input
-- Naming: `inputname.png`
-
-### How It Works
 1. Memory-maps binary file for efficient reading
 2. Groups bytes into RGB triplets
 3. Calculates optimal square dimensions
-4. Applies selected color transformations
-5. Generates pattern effects
+4. Applies colour transformation
+5. Generates pattern effect
 6. Applies post-processing filters
-7. Outputs final image
+7. Resizes to output dimensions (NEAREST resampling for crisp pixels)
+8. Applies retro effects (antialiasing, scanlines)
+9. Saves with format-specific optimisation
 
-## Troubleshooting
+## Running Tests
 
-### Common Issues
-- **"File not found"**: Ensure file path is correct
-- **"Memory error"**: File may be too large, try smaller file
-- **"Invalid format"**: Check supported file types
-
-### Performance Tips
-- Uses memory mapping for efficient processing
-- Large files may take longer to process
-- Consider using smaller files for testing
+```bash
+python run_tests.py
+```
 
 ## Contributing
 
-We welcome contributions! Please read our [Contributing Guide](CONTRIBUTING.md) for details on how to submit pull requests, report issues, and contribute to the project.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting pull requests and reporting issues.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+MIT License - see [LICENSE](LICENSE) for details.
 
 ## Credits
 
-- Inspired by binary visualization research
-- Built with [Pillow](https://python-pillow.org/) imaging library
-- Uses NumPy for efficient calculations
-
-
+- Built with [Pillow](https://python-pillow.org/) and [NumPy](https://numpy.org/)
