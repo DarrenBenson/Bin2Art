@@ -1,48 +1,22 @@
 # Security Policy
 
-## Supported Versions
-
-| Version | Supported          |
-| ------- | ------------------ |
-| latest  | :white_check_mark: |
-
 ## Reporting a Vulnerability
 
-We take security seriously. If you discover a security vulnerability in Bin2Art, please report it responsibly.
+If you discover a security vulnerability, please report it via GitHub Issues.
 
-### How to Report
+For sensitive issues, use GitHub's private security advisory feature:
+**Security** → **Advisories** → **New draft security advisory**
 
-1. **Do not** open a public GitHub issue for security vulnerabilities
-2. Email the maintainers directly with details of the vulnerability
-3. Include the following information:
-   - Description of the vulnerability
-   - Steps to reproduce
-   - Potential impact
-   - Any suggested fixes (optional)
+## Response Timeline
 
-### What to Expect
+- **Initial response:** Within 7 days
+- **Status update:** Within 14 days
+- **Resolution target:** Within 90 days
 
-- **Acknowledgement**: We will acknowledge receipt of your report within 48 hours
-- **Assessment**: We will assess the vulnerability and determine its severity
-- **Updates**: We will keep you informed of our progress
-- **Resolution**: Once fixed, we will notify you before public disclosure
-- **Credit**: With your permission, we will credit you in the release notes
+## Scope
 
-### Scope
+This policy applies to the Bin2Art tool and its image processing functionality.
 
-This security policy applies to:
-- The `bin2art.py` script
-- Any official releases or distributions
+## Supported Versions
 
-### Out of Scope
-
-- Vulnerabilities in dependencies (report these to the respective projects)
-- Issues that require physical access to the user's machine
-- Social engineering attacks
-
-## Security Best Practices for Users
-
-When using Bin2Art:
-- Only process binary files from trusted sources
-- Keep your Python installation and dependencies up to date
-- Run the tool with appropriate user permissions (avoid running as root/admin)
+Only the latest version is supported with security updates.
