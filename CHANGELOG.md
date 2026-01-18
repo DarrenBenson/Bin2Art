@@ -6,10 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-01-18
+
 ### Added
-- New retro computer colour palettes: gameboy, cpc, c64, spectrum
-- New colour modes: heatmap, rainbow
-- New pattern effects: hilbert (space-filling curve), radial (mandala), diagonal, blocks, scatter
+- CRT post-processing effects: `--antialias` (edge smoothing), `--scanlines` (authentic spacing), `--retro` (both combined)
+- Retro computer colour palettes: gameboy (4-shade green), cpc (Amstrad 27-colour), c64 (Commodore 16-colour), spectrum (ZX 16-colour)
+- New effects: hilbert (space-filling curve), radial (mandala-like), horizontal (straight bands), diagonal (45-degree stripes), blocks (chunky 8-bit)
+- Example gallery with 6 classic game images (Airwolf, Aliens, Amaurote, Arkanoid, Gauntlet, Xanagrams)
 - GitHub Actions CI/CD workflow for automated testing
 - Issue templates for bug reports and feature requests
 - Pull request template
@@ -18,11 +21,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - This changelog
 
 ### Changed
-- Renamed LICENSE.md to LICENSE for better GitHub integration
-- Updated CONTRIBUTING.md with correct test commands
-- Changed image resampling from LANCZOS to NEAREST for crisp, blocky 8-bit aesthetic
+- Streamlined colour modes from 13 to 7 (kept: normal, amplified, neon, gameboy, cpc, c64, spectrum)
+- Streamlined effects from 13 to 7 (kept: none, mosaic, hilbert, radial, horizontal, diagonal, blocks)
+- Default output size reduced from 1920 to 1024 pixels
+- Image resampling changed from LANCZOS to NEAREST for crisp, blocky 8-bit aesthetic
 - Converted file handling to use pathlib instead of os.path
-- Added comprehensive error handling for file operations
+- Renamed LICENSE.md to LICENSE for better GitHub integration
+- Updated community files to match standard format
+
+### Removed
+- Colour modes: complement, grayscale, sepia, pastel, heatmap, rainbow
+- Effects: mirror, rotate, kaleidoscope, spiral, waves, fractal, scatter
 
 ### Fixed
 - Removed broken test_bin2art.py from repository root
